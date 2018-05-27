@@ -1,0 +1,16 @@
+apply plugin: 'java'
+
+apply from: project.file('../gradle/webapp-dependencies.gradle')
+
+for (file in project.configurations.runtime) {
+  println file
+}
+for (file in project.configurations.compile) {
+  println file
+}
+/*for (file in project.configurations.implementation) {
+  println file
+}
+for (file in project.configurations.api) {
+  println file
+}*/

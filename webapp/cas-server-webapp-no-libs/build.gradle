@@ -1,0 +1,10 @@
+apply from: project.file("../gradle/webapp-war.gradle")
+
+description = "Apereo CAS Web Resources"
+
+configurations.each { conf ->
+  println(conf.name)
+  conf.allDependencies.each { dep ->
+    conf.exclude group: dep.group, module: dep.name
+  }
+}
