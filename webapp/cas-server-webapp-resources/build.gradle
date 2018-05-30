@@ -1,0 +1,25 @@
+// buildscript {
+//     repositories {
+//     maven {
+//       url "https://plugins.gradle.org/m2/"
+//     }
+//   }
+//   dependencies {
+//     classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
+//   }
+// }
+
+// ext.nodeVersion = "7.10.0"
+
+apply from: project.file("../gradle/webapp-resources.gradle")
+
+description = "Apereo CAS Web Resources"
+
+// configurations.each { conf ->
+//   println(conf.name)
+//   conf.allDependencies.each { dep ->
+//     conf.exclude group: dep.group, module: dep.name
+//   }
+// }
+
+tasks.withType(Javadoc).all { enabled = false }

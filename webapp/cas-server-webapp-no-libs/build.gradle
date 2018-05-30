@@ -8,3 +8,5 @@ configurations.each { conf ->
     conf.exclude group: dep.group, module: dep.name
   }
 }
+
+tasks.withType(Javadoc).all { enabled = false }

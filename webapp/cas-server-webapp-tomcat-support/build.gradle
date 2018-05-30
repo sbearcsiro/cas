@@ -4,5 +4,7 @@ apply from: project.file("../gradle/webapp-dependencies.gradle")
 description = "Apereo CAS Web Application support for Apache Tomcat"
 
 dependencies {
-    implementation libraries.springboottomcat
+    api libraries.springboottomcat
 }
+
+tasks.withType(Javadoc).all { enabled = false }
