@@ -30,9 +30,18 @@ public class DefaultRegisteredServiceDelegatedAuthenticationPolicy implements Re
 
     private Collection<String> allowedProviders = new LinkedHashSet<>();
 
+    private boolean allProvidersAllowed = false;
+
+    public DefaultRegisteredServiceDelegatedAuthenticationPolicy(Collection<String> allowedProviders) {
+        this(allowedProviders, false);
+    }
+
     @Override
     @JsonIgnore
     public boolean isProviderAllowed(final String provider, final RegisteredService registeredService) {
+        if (allProvidersAllowed) {
+            return true;
+        }
         if (this.allowedProviders != null && this.allowedProviders.isEmpty()) {
             LOGGER.warn("Registered service [{}] does not define any authorized/supported delegated authentication providers. "
                 + "It is STRONGLY recommended that you authorize and assign providers to the service definition. "
