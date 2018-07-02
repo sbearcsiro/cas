@@ -88,6 +88,18 @@ public abstract class BaseDelegatingExpirationPolicy extends AbstractCasExpirati
         return policy.isExpired(ticketState);
     }
 
+    public Long getTimeToLive(final TicketState ticketState) {
+        final Optional<ExpirationPolicy> match = getExpirationPolicyFor(ticketState);
+        if (!match.isPresent()) {
+            LOGGER.warn("No expiration policy was found for ticket state [{}]. "
+                    + "Consider configuring a predicate that delegates to an expiration policy.", ticketState);
+            return super.getTimeToLive(ticketState);
+        }
+        final ExpirationPolicy policy = match.get();
+        LOGGER.debug("Getting TTL from policy [{}] for ticket [{}]", policy, ticketState);
+        return policy.getTimeToLive(ticketState);
+    }
+
     @JsonIgnore
     @Override
     public Long getTimeToLive() {
