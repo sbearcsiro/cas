@@ -268,6 +268,18 @@ public class EncodingUtils {
     @SneakyThrows
     public static byte[] verifyJwsSignature(final Key signingKey, final byte[] value) {
         final String asString = new String(value, StandardCharsets.UTF_8);
+        return verifyJwsSignature(signingKey, asString);
+    }
+
+    /**
+     * Verify jws signature byte [ ].
+     *
+     * @param asString   the value
+     * @param signingKey the signing key
+     * @return the byte [ ]
+     */
+    @SneakyThrows
+    public static byte[] verifyJwsSignature(final Key signingKey, final String asString) {
         final JsonWebSignature jws = new JsonWebSignature();
         jws.setCompactSerialization(asString);
         jws.setKey(signingKey);

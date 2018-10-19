@@ -147,6 +147,12 @@ public interface OidcConstants {
     String JWKS_URL = "jwks";
 
     /**
+     * Logout Endpoint url.
+     */
+    String LOGOUT_URL = "logout";
+
+
+    /**
      * Revocation Endpoint url.
      */
     String REVOCATION_URL = "revoke";

@@ -16,6 +16,7 @@ import org.apereo.cas.authentication.principal.ServiceFactory;
 import org.apereo.cas.authentication.principal.WebApplicationService;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.configuration.model.support.oidc.OidcProperties;
+import org.apereo.cas.logout.SingleLogoutServiceLogoutUrlBuilder;
 import org.apereo.cas.oidc.OidcConstants;
 import org.apereo.cas.oidc.claims.BaseOidcScopeAttributeReleasePolicy;
 import org.apereo.cas.oidc.claims.OidcCustomScopeAttributeReleasePolicy;
@@ -40,6 +41,7 @@ import org.apereo.cas.oidc.web.OidcCasClientRedirectActionBuilder;
 import org.apereo.cas.oidc.web.OidcConsentApprovalViewResolver;
 import org.apereo.cas.oidc.web.OidcHandlerInterceptorAdapter;
 import org.apereo.cas.oidc.web.OidcImplicitIdTokenAuthorizationResponseBuilder;
+import org.apereo.cas.oidc.web.OidcLogoutEndpointController;
 import org.apereo.cas.oidc.web.OidcSecurityInterceptor;
 import org.apereo.cas.oidc.web.controllers.OidcAccessTokenEndpointController;
 import org.apereo.cas.oidc.web.controllers.OidcAuthorizeEndpointController;
@@ -252,6 +254,10 @@ public class OidcConfiguration extends WebMvcConfigurerAdapter implements CasWeb
     @Qualifier("oauthTokenRequestValidators")
     private Collection<OAuth20TokenRequestValidator> oauthTokenRequestValidators;
 
+    @Autowired
+    @Qualifier("singleLogoutServiceLogoutUrlBuilder")
+    private SingleLogoutServiceLogoutUrlBuilder singleLogoutServiceLogoutUrlBuilder;
+
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(oauthInterceptor()).addPathPatterns('/' + OidcConstants.BASE_OIDC_URL.concat("/").concat("*"));
@@ -438,6 +444,22 @@ public class OidcConfiguration extends WebMvcConfigurerAdapter implements CasWeb
             oauthAuthorizationResponseBuilders,
             oauthRequestValidators,
             registeredServiceAccessStrategyEnforcer);
+    }
+
+    @RefreshScope
+    @Bean
+    public OidcLogoutEndpointController oidcLogoutEndpointController() {
+        return new OidcLogoutEndpointController(servicesManager,
+                ticketRegistry,
+                defaultAccessTokenFactory,
+                oidcPrincipalFactory(),
+                webApplicationServiceFactory,
+                profileScopeToAttributesFilter(),
+                casProperties,
+                ticketGrantingTicketCookieGenerator.getIfAvailable(),
+                registeredServiceAccessStrategyEnforcer,
+                singleLogoutServiceLogoutUrlBuilder,
+                oidcDefaultJsonWebKeystoreCache());
     }
 
     @RefreshScope
