@@ -1,0 +1,1 @@
+./gradlew --build-cache --configure-on-demand assemble uploadArchives -x test -x javadoc -x check -DenableIncremental=true -DskipNpmLint=true -DskipNestedConfigMetadataGen=true -DpublishReleases=true -DsonatypeUsername=${TRAVIS_DEPLOY_USERNAME} -DsonatypePassword=${TRAVIS_DEPLOY_PASSWORD} --parallel

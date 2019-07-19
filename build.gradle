@@ -24,7 +24,7 @@ ext {
 }
 
 def isArtifactSigningRequired = {
-    return (publishReleases && sonatypeUsername != null && sonatypePassword != null)
+    return false // (publishReleases && sonatypeUsername != null && sonatypePassword != null)
 }
 
 /*
